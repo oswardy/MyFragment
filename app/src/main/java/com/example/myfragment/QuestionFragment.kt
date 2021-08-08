@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.example.myfragment.databinding.FragmentQuestionBinding
+import org.w3c.dom.Text
 
 
 class QuestionFragment : Fragment() {
@@ -19,7 +21,7 @@ class QuestionFragment : Fragment() {
 
     var questionIndex = 0
     var score: Int = 0
-
+    var totalScore: Int = 0
     private val questions: MutableList<Question> = mutableListOf(
         Question(
             text = "Which Order have been implemented by Malaysia government to prevent COVID-19?",
@@ -85,7 +87,21 @@ class QuestionFragment : Fragment() {
                     setQuestion()
 
                 } else {
-                    Navigation.findNavController(it).navigate(R.id.action_questionFragment_to_thankyouFragment)
+
+                    if(score ==1 ){
+                        totalScore = 50
+                    }
+                    if(score == 2 ){
+                        totalScore = 100
+                    }
+                    if(score == 0){
+                        totalScore
+                    }
+                    val bundle:Bundle = bundleOf(Pair("scores",totalScore))
+                    //
+                    //val action = QuestionFragmentDirections.actionQuestionFragmentToThankyouFragment(scores)
+                    Navigation.findNavController(it).navigate(R.id.action_questionFragment_to_thankyouFragment,bundle)
+
                 }
             }else{
                 Toast.makeText(context, "please select answer", Toast.LENGTH_LONG).show()
